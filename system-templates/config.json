@@ -1,10 +1,22 @@
 {
 	"domain": "test.local",
 	"hostname": "ns01",
-	"ip": "192.168.20.103",
 	
 	"database" : {
+		"type": "relational",
+		"name": "mysql",
 		"username": "user",
 		"password": "123456"
+	},
+
+	"netinfo": {
+		"eth0": "eth0",
+		"eth1": "eth1",
+		"ipAddr": "192.168.20.103",
+		"network": "192.168.20.0",
+		"netmask": "255.255.255.0",
+		"broadcast": "192.168.20.255",
+		"gateway": "192.168.20.1",
+		"dns": "192.168.20.1"
 	}
 }

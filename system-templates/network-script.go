@@ -11,9 +11,21 @@ import (
 type Config struct {
 	Domain   string `json:"domain"`
 	Hostname string `json:"hostname"`
-	Ip       string `json:"ip"`
+
+	Netinfo struct {
+		Eth0      string `json:"eth0"`
+		Eth1      string `json:"eth1"`
+		IpAddr    string `json:"ipAddr"`
+		Network   string `json:"network"`
+		Netmask   string `json:"netmask"`
+		Broadcast string `json:"broadcast"`
+		Gateway   string `json:"gateway"`
+		Dns       string `json:"dns"`
+	}
 
 	Database struct {
+		Type     string `json:"type"`
+		Name     string `json:"name"`
 		Username string `json:"username"`
 		Password string `json:"password"`
 	}
@@ -34,6 +46,7 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	}
+	fmt.Println(conf)
 }
 
 func LoadConfig(file string) Config {
