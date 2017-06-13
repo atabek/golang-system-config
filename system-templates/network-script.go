@@ -6,6 +6,8 @@ import (
 	"io/ioutil"
 	"os"
 	"text/template"
+	"time"
+	"strings"
 )
 
 type Config struct {
@@ -33,12 +35,21 @@ type Config struct {
 	Filepaths struct {
 		Netinfo string `json:"netinfo"`
 	}
-}
+
+} 
 
 func main() {
+	//const shortForm = "2006-Jan-02"
+
 	conf := LoadConfig("./config.json")
 	t := template.Must(template.New("network.tpl").ParseFiles("network.tpl"))
-	f, err := os.Create("interfaces")
+	
+	bakFile := []string{conf.Filepaths.Netinfo, "bak"}
+	bakFileAbsPath := strings.Join(bakFile, ".")
+	MoveFile(conf.Filepaths.Netinfo, bakFileAbsPath)
+	fmt.Println(bakFileAbsPath)
+	
+	f, err := os.Create(conf.Filepaths.Netinfo)
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -49,15 +60,18 @@ func main() {
 	err = t.Execute(f, conf)
 	if err != nil {
 		fmt.Println(err)
+		return
 	}
-	MoveFile("interfaces", "/etc/network/interfaces")
 }
 
 func MoveFile(src, dest string) {
 	err := os.Rename(src, dest)
 	if err != nil {
 		fmt.Println("Could not move file: ", err)
+		return
 	}
+
+	fmt.Println(time.Now())
 }
 
 func LoadConfig(file string) Config {
