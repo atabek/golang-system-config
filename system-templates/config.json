@@ -1,0 +1,10 @@
+{
+	"domain": "test.local",
+	"hostname": "ns01",
+	"ip": "192.168.20.103",
+	
+	"database" : {
+		"username": "user",
+		"password": "123456"
+	}
+}
