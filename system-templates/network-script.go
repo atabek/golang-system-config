@@ -29,12 +29,16 @@ type Config struct {
 		Username string `json:"username"`
 		Password string `json:"password"`
 	}
+	
+	Filepaths struct {
+		Netinfo string `json:"netinfo"`
+	}
 }
 
 func main() {
 	conf := LoadConfig("./config.json")
 	t := template.Must(template.New("network.tpl").ParseFiles("network.tpl"))
-	f, err := os.Create("network.cfg")
+	f, err := os.Create("interfaces")
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -46,7 +50,14 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	}
-	fmt.Println(conf)
+	MoveFile("interfaces", "/etc/network/interfaces")
+}
+
+func MoveFile(src, dest string) {
+	err := os.Rename(src, dest)
+	if err != nil {
+		fmt.Println("Could not move file: ", err)
+	}
 }
 
 func LoadConfig(file string) Config {
